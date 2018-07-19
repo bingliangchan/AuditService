@@ -1,20 +1,63 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Audit microservice that uses CQRS and RabbitMQ.
+
+![File](file.png)
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+
+1. Dependencies
+- MySQL database server
+- RabbitMQ server, using https://www.cloudamqp.com/
+
+2. Configuration
+- Constants.cs to change mysql Connection string
+> public const string SqlConn = "server=xxxxx;user id=xxx;password=xx;persistsecurityinfo=False;database=audit;SslMode=none";
+
+- CommonModule.cs to chage RabbitMQ server
+> var bus = RabbitHutch.CreateBus("host=wolverine.rmq.cloudamqp.com;UserName=xxx;Password=xxxxx;virtualhost=xxxx");
+
+
+2.	Start up
+- Start App.Audit.CommandProcessor
+>CMD: dotnet App.Audit.CommandProcessor.dll
+
+- Start App.Audit.QueryProcessor
+>CMD: dotnet App.Audit.QueryProcessor.dll
+
+- run App.Audit.Api service 
+- RabbitMQ using cloudamqp
+![File2](file2.png)
+
 
 # Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+- App.Audit.UnitTest
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+- App.Audit.IntegrationTest
+>Repository tests
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+
+- App.Audit.FunctionTest
+> API test(NOT COMPLETE)
+
+
+-Swagger Test
+browser /swagger to go to swagger page
+![File1](file1.png)
+
+
+# Key Nuget Package used
+- Autofac  - dependency injection framework
+- FluentValidation - validation for requests
+- EasyNetQ - RabbitMQ client
+- Moq - Mocking for testing
+- NBulder - Faking data
+- MySql.Data- .net mysql 
+
+
+
+# TODO:
+
+- No Authentication module
+- Finish Functional testing
+- Queue policy configuration
+- Using Two databases for Query and Command
